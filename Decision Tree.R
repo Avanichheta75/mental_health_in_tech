@@ -1,3 +1,10 @@
+#################################################
+#Name:Avani Chheta
+#CWID: 10471861
+#Project: Mental health tech survey
+#Model: Decision Tree
+################################################
+
 rm(list=ls())
 
 ##Load library
