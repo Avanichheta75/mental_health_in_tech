@@ -14,6 +14,10 @@ library(dplyr)
 P_RF <- read.csv("survey.csv", header = TRUE, sep = ",", na.strings = c("?"))
 View(P_RF)
 
+#Remove Missing Values
+P_RF_notmissing<-na.omit(P_RF)
+View(P_RF_notmissing)
+
 
 #Converting NA string of self_employed to Na class
 for(i in seq(from=1, to=nrow(P_RF), by=1))
@@ -23,11 +27,6 @@ for(i in seq(from=1, to=nrow(P_RF), by=1))
     P_RF$self_employed[i] <- NA;
   } 
 }
-
-
-#Remove Missing Values
-P_RF_notmissing<-na.omit(P_RF)
-View(P_RF_notmissing)
 
 
 #removing not required rows
@@ -54,14 +53,14 @@ P_RF_notmissing <- na.omit(P_RF_notmissing)
 boxplot(P_RF_notmissing$Age)
 
 
-#Gender
+#gender
 fem_list = c('F', 'female', 'Woman', 'woman', 'Female', 'Femake',
              'femail', 'f', 'cis-female/femme', 'Cis Female')
 
 male_list = c('M', 'm', 'male', 'Mail', 'maile', 'Mal', 'male',
               'Guy (-ish) ^_^', 'cis male', 'Cis Man', 'Cis Male',
               'Male ', 'Male (CIS)', 'male leaning androgynous',
-              'Male-ish', 'Malr', 'Man', 'msle', '')
+              'Male-ish', 'Malr', 'Man', 'msle', '', 'Male')
 
 getGender <- function(types){
   new_char_list = c(1, length(types))
@@ -84,7 +83,9 @@ getGender <- function(types){
   return(new_char_list) 
 }
 
-P_RF_notmissing = P_RF_notmissing %>% mutate(Gender = getGender(P_RF_notmissing$Gender))
+P_RF_notmissing = P_RF_notmissing %>% 
+  mutate(Gender = getGender(P_RF_notmissing$Gender))
+
 
 View(P_RF_notmissing)
 
