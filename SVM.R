@@ -117,5 +117,5 @@ tab
 accuracy <- function(x){sum(diag(x)/(sum(rowSums(x)))) * 100}
 accurate <-accuracy(tab) #gets accuracy
 accurate
-error_rate<- 1 - as.double(accurate/100) #error rate for k=5
+error_rate<- 1 - as.double(accurate/100)
 error_rate
