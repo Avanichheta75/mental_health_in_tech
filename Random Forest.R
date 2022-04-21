@@ -14,11 +14,6 @@ library(dplyr)
 P_RF <- read.csv("survey.csv", header = TRUE, sep = ",", na.strings = c("?"))
 View(P_RF)
 
-#Remove Missing Values
-P_RF_notmissing<-na.omit(P_RF)
-View(P_RF_notmissing)
-
-
 #Converting NA string of self_employed to Na class
 for(i in seq(from=1, to=nrow(P_RF), by=1))
 {
@@ -27,6 +22,15 @@ for(i in seq(from=1, to=nrow(P_RF), by=1))
     P_RF$self_employed[i] <- NA;
   } 
 }
+
+NAdata<-P_RF[which(is.na(P_RF[6])),]
+View(NAdata)
+print('Total number of missing values:')
+nrow(NAdata)
+
+#Remove Missing Values
+P_RF_notmissing<-na.omit(P_RF)
+View(P_RF_notmissing)
 
 
 #removing not required rows
@@ -160,6 +164,7 @@ P_RF_notmissing$obs_consequence <- as.factor(P_RF_notmissing$obs_consequence)
 class(P_RF_notmissing$obs_consequence)
 is.factor(P_RF_notmissing$obs_consequence)
 
+summary(P_RF_notmissing)
 
 #get same data
 set.seed(111)
@@ -171,7 +176,6 @@ training<-P_RF_notmissing[idx,]
 nrow(training)
 test<-P_RF_notmissing[-idx,]
 nrow(test)
-
 
 #Random Forest
 library(randomForest)
@@ -193,3 +197,4 @@ error_rate
 #Accuracy
 Accuracy <-(sum(diag(a))/(sum(rowSums(a)))*100) 
 Accuracy
+
