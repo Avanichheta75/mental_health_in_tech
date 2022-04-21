@@ -11,6 +11,10 @@ library ("dplyr")
 
 mentalDataWithoutNA <- na.omit(mentalData)
 
+remove_list <- c('Timestamp', 'state','comments','work_interfere')                
+new_df <- mentalDataWithoutNA[, !names(mentalDataWithoutNA) %in% remove_list]
+mentalDataWithoutNA = new_df
+
 #age
 boxplot(mentalData$Age)
 quantile(mentalDataWithoutNA$Age, probs = c(.25, .5, .75))
@@ -31,13 +35,13 @@ boxplot(mentalDataWithoutNA$Age)
 #View(mentalDataOutlying)
 
 #gender
-fem_list = c('F', 'female', 'Woman', 'woman', 'Female', 'Femake',
-             'femail', 'f', 'cis-female/femme', 'Cis Female')
+F_list = c('F', 'female', 'Woman', 'woman', 'Female', 'Femake',
+           'femail', 'f', 'cis-female/femme', 'Cis Female')
 
-male_list = c('M', 'm', 'male', 'Mail', 'maile', 'Mal', 'male',
-              'Guy (-ish) ^_^', 'cis male', 'Cis Man', 'Cis Male',
-              'Male ', 'Male (CIS)', 'male leaning androgynous',
-              'Male-ish', 'Malr', 'Man', 'msle', '','Male')
+M_list = c('M', 'm', 'male', 'Mail', 'maile', 'Mal', 'male',
+           'Guy (-ish) ^_^', 'cis male', 'Cis Man', 'Cis Male',
+           'Male ', 'Male (CIS)', 'male leaning androgynous',
+           'Male-ish', 'Malr', 'Man', 'msle', '','Male')
 
 getGender <- function(types){
   new_char_list = c(1, length(types))
@@ -45,23 +49,23 @@ getGender <- function(types){
     type = types[i]
     new_char = 'unknown'   
     
-    if(type %in% fem_list){
+    if(type %in% F_list){
       new_char = 'Female'
     }
-    else if(type %in% male_list){
+    else if(type %in% M_list){
       new_char = 'Male'
     }
     
     else{
       new_char = 'unknown'
     }
-    print(i,new_char)
     new_char_list[i] = new_char 
   }
   return(new_char_list) 
 }
 
 mentalDataWithoutNA = mentalDataWithoutNA %>% mutate(Gender = getGender(mentalDataWithoutNA$Gender))
+
 
 
 #self-employed
@@ -74,9 +78,7 @@ for(i in seq(from=1, to=nrow(mentalDataWithoutNA), by=1))
 
 mentalDataWithoutNA<-na.omit(mentalDataWithoutNA)
 
-remove_list <- c('Timestamp', 'state','comments','work_interfere')                
-new_df <- mentalDataWithoutNA[, !names(mentalDataWithoutNA) %in% remove_list]
-mentalDataWithoutNA = new_df
+
 
 data2 <- mentalDataWithoutNA
 data2$Age <- as.factor(data2$Age)      

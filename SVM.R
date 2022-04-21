@@ -55,7 +55,6 @@ getGender <- function(types){
     else{
       new_char = 'unknown'
     }
-    print(i,new_char)
     new_char_list[i] = new_char 
   }
   return(new_char_list) 
