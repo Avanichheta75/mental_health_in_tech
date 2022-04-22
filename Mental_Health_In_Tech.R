@@ -4,7 +4,7 @@ rm(list=ls())
 name <-file.choose() 
 mentalData <- read.csv(name,na.string="?")
 View(mentalData)
-summary(mentalDataWithoutNA)
+summary(mentalData)
 
 ##Loading the libraries
 library(kknn)
@@ -12,6 +12,10 @@ library ("dplyr")
 library(magrittr)
 library(randomForest)
 library(e1071)
+library(rpart)
+library(rpart.plot)  			# Enhanced tree plots
+library(rattle)           # Fancy tree plot
+library(RColorBrewer) 
 
 
 mentalDataWithoutNA <- na.omit(mentalData)
@@ -237,21 +241,24 @@ error_rate<- 1 - as.double(accurate/100)
 error_rate
 
 
-###Logistic regression####
+######################   LOGISTIC REGRESSION   #######################
 
-final.glm <- glm(formula= treatment ~ Gender + family_history + mental_health_interview + care_options+ seek_help+ mental_health_consequence + coworkers , data= training, family=binomial)
+
+final.glm <- glm(formula= treatment ~., data=training[,!colnames(training) %in% c("Country")], family=binomial)
 summary(final.glm)
-
-fitted.results <- predict(final.glm, test, type="response")
-fitted.results <- ifelse(fitted.results < 0.5,1,0)
+fitted.results<-final.glm %>% predict(test, type = "response")
+fitted.results <- ifelse(fitted.results > 0.5,1,0)
 demo<-table(Actual=test$treatment, fitted.results)
+demo
 
 #Accuracy of Logistic Regression
 Accuracy <-(sum(diag(demo))/(sum(rowSums(demo)))*100) 
 Accuracy
 
 #Error Rate of Logistic Regression
-NB_wrong<-sum(fitted.results!=test$treatment)
-NB_error_rate<-NB_wrong/length(fitted.results)
-NB_error_rate
+error_rate<- 1 - as.double(Accuracy/100)
+error_rate
+
+
+
 
