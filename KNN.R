@@ -1,22 +1,29 @@
-rm(list=ls())
+rm(list=ls()) 
 
+##Reading the data
 name <-file.choose() 
 mentalData <- read.csv(name,na.string="?")
 View(mentalData)
-summary(mentalData)
+summary(mentalDataWithoutNA)
 
-
+##Loading the libraries
 library(kknn)
 library ("dplyr")
 
 mentalDataWithoutNA <- na.omit(mentalData)
 
+##Removing the irrelevant columns of dataset
 remove_list <- c('Timestamp', 'state','comments','work_interfere')                
 new_df <- mentalDataWithoutNA[, !names(mentalDataWithoutNA) %in% remove_list]
 mentalDataWithoutNA = new_df
 
+
+## Cleaning the data
+
+
 #age
-boxplot(mentalData$Age)
+boxplot(mentalData$Age,main = 'Box plot of Age',
+        col= rgb(0, 0.8, 1, alpha = 0.5)) ##shows outliers
 quantile(mentalDataWithoutNA$Age, probs = c(.25, .5, .75))
 firstPecentile<-quantile(mentalDataWithoutNA$Age, probs = c(.25))
 thirdPercentile <-quantile(mentalDataWithoutNA$Age, probs = c(.75))
@@ -25,14 +32,13 @@ iqr<-iqr*1.5
 for(i in seq(from=1, to=nrow(mentalDataWithoutNA), by=1))
 {
   if(mentalDataWithoutNA$Age[i]<firstPecentile- iqr|mentalDataWithoutNA$Age[i]>thirdPercentile+ iqr){
-    mentalDataWithoutNA$Age[i] <- NA;
+    mentalDataWithoutNA$Age[i] <- NA; #marking the outliers as NA
   } 
 }
 is.na(mentalDataWithoutNA$Age)
 mentalDataWithoutNA <- na.omit(mentalDataWithoutNA)
-boxplot(mentalDataWithoutNA$Age)
-#mentalDataOutlying<- filter(mentalDataWithoutNA,Age<firstPecentile- iqr|Age>thirdPercentile+ iqr)
-#View(mentalDataOutlying)
+boxplot(mentalDataWithoutNA$Age,main = 'Box plot of Age',col= rgb(0, 0.8, 1, alpha = 0.5)) #after data cleaning
+
 
 #gender
 F_list = c('F', 'female', 'Woman', 'woman', 'Female', 'Femake',
@@ -79,7 +85,7 @@ for(i in seq(from=1, to=nrow(mentalDataWithoutNA), by=1))
 mentalDataWithoutNA<-na.omit(mentalDataWithoutNA)
 
 
-
+##factoring the data
 data2 <- mentalDataWithoutNA
 data2$Age <- as.factor(data2$Age)      
 data2$Gender <- as.factor(data2$Gender)      
@@ -105,16 +111,22 @@ data2$phys_health_interview <- as.factor(data2$phys_health_interview)
 data2$mental_vs_physical <- as.factor(data2$mental_vs_physical)      
 data2$obs_consequence <- as.factor(data2$obs_consequence)      
 mentalDataWithoutNA <-data2
+summary(mentalDataWithoutNA)
 
+##creating test and training data
 index <- sort(sample(1:nrow(mentalDataWithoutNA),0.7*nrow(mentalDataWithoutNA)))
 training <-mentalDataWithoutNA[index,]
 test<-mentalDataWithoutNA[-index,]
 
-
+##predicting data
 predict_k5 <- kknn(formula=treatment~., training, test, k=5,kernel ="triangular")
 fit_k5 <- fitted(predict_k5) #predictions
+
+#creating confusion matrix
 tab_5 <-table(Actual=test$treatment,Treatment=fit_k5) #tabulate predictions
 tab_5
+
+##finding accuracy and error rate
 accuracy <- function(x){sum(diag(x)/(sum(rowSums(x)))) * 100}
 accurate_5 <-accuracy(tab_5) #gets accuracy
 accurate_5
