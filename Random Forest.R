@@ -164,6 +164,9 @@ P_RF_notmissing$obs_consequence <- as.factor(P_RF_notmissing$obs_consequence)
 class(P_RF_notmissing$obs_consequence)
 is.factor(P_RF_notmissing$obs_consequence)
 
+mental_health_matrix <- data.matrix(P_RF_notmissing)
+heatmap(P_RF_notmissing)
+
 summary(P_RF_notmissing)
 
 #get same data
