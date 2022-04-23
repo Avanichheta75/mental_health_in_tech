@@ -116,6 +116,8 @@ mental_health_notmissing$phys_health_interview <- as.factor(mental_health_notmis
 mental_health_notmissing$mental_vs_physical <- as.factor(mental_health_notmissing$mental_vs_physical)      
 mental_health_notmissing$obs_consequence <- as.factor(mental_health_notmissing$obs_consequence)   
 
+summary(mental_health_notmissing)
+
 mental_health_matrix <- data.matrix(mental_health_notmissing)
 heatmap(mental_health_matrix)
 
