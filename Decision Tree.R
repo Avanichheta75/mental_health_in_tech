@@ -15,9 +15,8 @@ library(rattle)
 library ("dplyr")
 
 ## Load data from csv file
-mental_health<-read.csv("/Users/avanichheta/Study/SPRING_2022/KDD/Final Project/survey.csv",na.strings = '?')
-View(mental_health)
-
+name <-file.choose()
+mental_health <- read.csv(name, na.strings = '?')
 
 ##Summuray of mental data
 summary(mental_health)
