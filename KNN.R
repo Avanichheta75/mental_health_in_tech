@@ -113,6 +113,9 @@ data2$obs_consequence <- as.factor(data2$obs_consequence)
 mentalDataWithoutNA <-data2
 summary(mentalDataWithoutNA)
 
+mental_health_matrix <- data.matrix(mentalDataWithoutNA)
+heatmap(mental_health_matrix)
+
 ##creating test and training data
 index <- sort(sample(1:nrow(mentalDataWithoutNA),0.7*nrow(mentalDataWithoutNA)))
 training <-mentalDataWithoutNA[index,]

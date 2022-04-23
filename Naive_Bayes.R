@@ -172,6 +172,9 @@ class(data2$obs_consequence)
 
 dataWithoutNA <- data2
 
+mental_health_matrix <- data.matrix(dataWithoutNA)
+heatmap(mental_health_matrix)
+
 #data sampling and dividing data into 70% and 30% training and test data
 idx<-sort(sample(nrow(dataWithoutNA),as.integer(0.7*nrow(dataWithoutNA))))
 idx
