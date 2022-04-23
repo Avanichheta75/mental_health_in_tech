@@ -6,7 +6,7 @@ library ("dplyr")
 
 dev.off()
 
-#Load Breast cancer data file CSV
+#Load data file CSV
 dataFile = file.choose()
 data <- read.csv(file = dataFile, header = TRUE, na.strings = "?")
 head(data)
