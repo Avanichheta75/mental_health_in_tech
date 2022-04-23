@@ -25,8 +25,6 @@ summary(mental_health)
 ## Remove missing value
 mental_health_notmissing <- na.omit(mental_health)
 
-##mental_health_notmissing$treatment <- factor(mental_health_notmissing$treatment, labels =c('yes','no')) 
-
 #removing not required rows
 remove_list <- c('Timestamp', 'state','comments','work_interfere')                
 new_df <- mental_health_notmissing[, !names(mental_health_notmissing) %in% remove_list]
@@ -138,16 +136,11 @@ rpart.plot(Cartclass)
 predictcart<-predict( Cartclass ,test_data , type="class" )
 
 #Creates_Frequency_Table
-table(Actual=test_data[,23],CART=predictcart)
-predictcart2<-predict(Cartclass,test_data)
-str(predictcart2)
-predictcart_cat<-ifelse(predictcart2[,1]<=.5,'yes','no')
-table(Actual=test_data[,23],CART=predictcart_cat)
-
-#Percentage Accuracy
-match<- (test_data[,23]==predictcart)*100
-acc<-sum(match)/length(match)
-acc
+tab_5 <- table(predictcart, test_data$treatment)
+confusionMatrix(factor(predictcart), factor(test_data$treatment))
+accuracy <- function(x){sum(diag(x)/(sum(rowSums(x)))) * 100}
+accurate_5 <-accuracy(tab_5)
+print(accurate_5)
 
 #ErrorRate
 error<- sum(test_data[,23]!=predictcart)
