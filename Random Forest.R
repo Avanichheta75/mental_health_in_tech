@@ -1,9 +1,3 @@
-# Course      : CS 513B
-# Name        : Savleen Kaur
-# CWID        : 10476867
-# Project     : RF
-
-
 rm(list=ls())
 
 install.packages('randomForest')
