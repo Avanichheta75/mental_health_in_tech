@@ -176,17 +176,11 @@ rpart.plot(Cartclass)
 
 predictcart<-predict( Cartclass ,test , type="class" )
 
-#Creates_Frequency_Table
-table(Actual=test[,23],CART=predictcart)
-predictcart2<-predict(Cartclass,test)
-str(predictcart2)
-predictcart_cat<-ifelse(predictcart2[,1]<=.5,'yes','no')
-table(Actual=test[,23],CART=predictcart_cat)
-
-#Percentage Accuracy
-match<- (test[,23]==predictcart)*100
-acc<-sum(match)/length(match)
-acc
+tab_5 <- table(predictcart, test$treatment)
+confusionMatrix(factor(predictcart), factor(test$treatment))
+accuracy <- function(x){sum(diag(x)/(sum(rowSums(x)))) * 100}
+accurate_5 <-accuracy(tab_5)
+print(accurate_5)
 
 #ErrorRate
 error<- sum(test[,23]!=predictcart)
@@ -195,10 +189,11 @@ errorrate
 
 library(rpart.plot)
 prp(Cartclass)
-#install.packages("rpart.plot")
+install.packages("rpart.plot")
 
 #graph
 fancyRpartPlot(Cartclass) 
+
 
 
 
