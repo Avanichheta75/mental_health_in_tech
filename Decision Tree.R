@@ -1,10 +1,3 @@
-#################################################
-#Name:Avani Chheta
-#CWID: 10471861
-#Project: Mental health tech survey
-#Model: Decision Tree
-################################################
-
 rm(list=ls())
 
 ##Load library
@@ -152,7 +145,6 @@ errorrate<-error/length(test_data[,11])
 errorrate
 
 library(rpart.plot)
-prp(Cartclass)
 install.packages("rpart.plot")
 
 #graph
