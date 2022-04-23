@@ -21,10 +21,9 @@ library(countrycode)
 library(purrr)
 library(htmltools)
 
-#Load Breast cancer data file CSV
+#Load data file CSV
 dataFile = file.choose()
 data <- read.csv(file = dataFile, header = TRUE, na.strings = "?")
-#data <- read.csv(file = dataFile, header = TRUE)
 head(data)
 print(data)
 View(data)
@@ -109,8 +108,6 @@ getGender <- function(types){
 dataWithoutNA = dataWithoutNA %>% 
   mutate(Gender = getGender(dataWithoutNA$Gender))
 View(dataWithoutNA)
-
-
 
 
 
