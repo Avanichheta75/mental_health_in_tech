@@ -1,13 +1,5 @@
-##################################################################
-#  Institute  : Stevens Institute of Technology
-#  Project    : Project: Mental Health in Tech Industry
-#  First Name : Shraddha 
-#  Last Name  : Kumbhar
-#  Id			    : 10476875
-
-
 rm(list=ls()) # clearing object environment
-##################################################################
+
 
 #Import package 'e1071' for Naive Bayes Classifier and class package
 #install.packages("e1071")
