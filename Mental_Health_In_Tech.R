@@ -171,7 +171,7 @@ NB_error_rate<-NB_wrong/length(category_class)
 NB_error_rate
 
 
-###Decision Tree####
+#####################     Decision Tree   ############
 dev.off()
 Cartclass<- rpart( treatment~., data =training )
 summary(Cartclass)
@@ -181,16 +181,19 @@ rpart.plot(Cartclass)
 
 predictcart<-predict( Cartclass ,test , type="class" )
 
-tab_5 <- table(predictcart, test$treatment)
+#Creates_Frequency_Table
+table <- table(predictcart, test$treatment)
 confusionMatrix(factor(predictcart), factor(test$treatment))
+
+#Accuracy
 accuracy <- function(x){sum(diag(x)/(sum(rowSums(x)))) * 100}
-accurate_5 <-accuracy(tab_5)
-print(accurate_5)
+accurate_Table <-accuracy(table)
+accurate_Table
 
 #ErrorRate
-error<- sum(test[,23]!=predictcart)
-errorrate<-error/length(test[,11])
-errorrate
+wrong<- (test_data$treatment!=predictcart )
+error_rate<-sum(wrong)/length(wrong)
+error_rate 
 
 library(rpart.plot)
 prp(Cartclass)
@@ -202,7 +205,7 @@ fancyRpartPlot(Cartclass)
 
 
 
-###Random Forest####
+################   Random Forest  ################
 fit <- randomForest( treatment~., data=training, importance=TRUE, ntree=1000)
 
 importance(fit)
@@ -223,7 +226,7 @@ Accuracy
 
 
 
-###SVM####
+###############   SVM3   ################
 
 ##predicting data
 svm.model <- svm( treatment~ ., data =training)
