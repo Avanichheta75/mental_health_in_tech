@@ -129,20 +129,21 @@ summary(Cartclass)
 
 #Plotting_Graph
 rpart.plot(Cartclass)
-
 predictcart<-predict( Cartclass ,test_data , type="class" )
 
 #Creates_Frequency_Table
 table <- table(predictcart, test$treatment)
 confusionMatrix(factor(predictcart), factor(test$treatment))
+
+#Accuracy
 accuracy <- function(x){sum(diag(x)/(sum(rowSums(x)))) * 100}
 accurate_Table <-accuracy(table)
 accurate_Table
 
 #ErrorRate
-error<- sum(test_data[,23]!=predictcart)
-errorrate<-error/length(test_data[,11])
-errorrate
+wrong<- (test_data$treatment!=predictcart )
+error_rate<-sum(wrong)/length(wrong)
+error_rate 
 
 library(rpart.plot)
 install.packages("rpart.plot")
