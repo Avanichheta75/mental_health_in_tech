@@ -133,11 +133,11 @@ rpart.plot(Cartclass)
 predictcart<-predict( Cartclass ,test_data , type="class" )
 
 #Creates_Frequency_Table
-tab_5 <- table(predictcart, test_data$treatment)
-confusionMatrix(factor(predictcart), factor(test_data$treatment))
+table <- table(predictcart, test$treatment)
+confusionMatrix(factor(predictcart), factor(test$treatment))
 accuracy <- function(x){sum(diag(x)/(sum(rowSums(x)))) * 100}
-accurate_5 <-accuracy(tab_5)
-print(accurate_5)
+accurate_Table <-accuracy(table)
+accurate_Table
 
 #ErrorRate
 error<- sum(test_data[,23]!=predictcart)
