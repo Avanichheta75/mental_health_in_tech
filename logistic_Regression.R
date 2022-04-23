@@ -1,14 +1,10 @@
-##################################################################
-#  Institute  : Stevens Institute of Technology
-#  Project    : Project: Mental Health in Tech Industry
-#  First Name : Shraddha 
-#  Last Name  : Kumbhar
-#  Id			    : 10476875
-
-
 rm(list=ls()) # clearing object environment
-##################################################################
 
+
+library(ggplot2)
+library ("dplyr")
+
+dev.off()
 
 #Load Breast cancer data file CSV
 dataFile = file.choose()
@@ -149,7 +145,30 @@ class(data2$obs_consequence)
 
 dataWithoutNA <- data2
 
-.results<-final.glm %>% predict(test, type = "response")
+
+mental_health_matrix <- data.matrix(dataWithoutNA)
+heatmap(mental_health_matrix)
+
+#data sampling and dividing data into 70% and 30% training and test data
+idx<-sort(sample(nrow(dataWithoutNA),as.integer(0.7*nrow(dataWithoutNA))))
+idx
+
+# Build train,test
+training<-dataWithoutNA[idx,]
+training
+nrow(training)
+test<-dataWithoutNA[-idx,]
+test
+nrow(test)
+
+
+
+######################   LOGISTIC REGRESSION   #######################
+
+
+final.glm <- glm(formula= treatment ~., data=training[,!colnames(training) %in% c("Country")], family=binomial)
+summary(final.glm)
+fitted.results<-final.glm %>% predict(test, type = "response")
 fitted.results <- ifelse(fitted.results > 0.5,1,0)
 demo<-table(Actual=test$treatment, fitted.results)
 demo
