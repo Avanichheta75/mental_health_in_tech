@@ -114,7 +114,10 @@ mental_health_notmissing$supervisor <- as.factor(mental_health_notmissing$superv
 mental_health_notmissing$mental_health_interview <- as.factor(mental_health_notmissing$mental_health_interview)      
 mental_health_notmissing$phys_health_interview <- as.factor(mental_health_notmissing$phys_health_interview)      
 mental_health_notmissing$mental_vs_physical <- as.factor(mental_health_notmissing$mental_vs_physical)      
-mental_health_notmissing$obs_consequence <- as.factor(mental_health_notmissing$obs_consequence)      
+mental_health_notmissing$obs_consequence <- as.factor(mental_health_notmissing$obs_consequence)   
+
+mental_health_matrix <- data.matrix(mental_health_notmissing)
+heatmap(mental_health_matrix)
 
 set.seed(111)
 
